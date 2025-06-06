@@ -1,0 +1,15 @@
+Encapsulation (Encapsulasi) adalah konsep dasar
+dalam Pemrograman Berorientasi Objek (OOP).
+Ini mengacu pada praktik mengelompokkan data (atribut) dan metode (fungsi)
+yang beroperasi pada data menjadi satu unit, sambil membatasi akses langsung ke beberapa detail
+
+Prinsip Utama Encapsulation:
+1.Penyembunyian Data – Mencegah modifikasi langsung dari properti objek.
+2.Metode Getter & Setter – Mengontrol akses dan modifikasi data.
+3.Pengubah Akses:
+-Private (pribadi): Variabel atau metode tidak dapat diakses dari luar kelas.
+-Public (publik): Sepenuhnya dapat diakses dari mana saja.
+-Protected (terlindungi): Dapat diakses dalam kelas dan subclass.
+
+Ini memastikan bahwa properti nama bersifat pribadi, tetapi dapat diakses dan dimodifikasi menggunakan metode getter dan setter.
+Enkapsulasi meningkatkan keamanan, pemeliharaan, dan modularitas kode.
