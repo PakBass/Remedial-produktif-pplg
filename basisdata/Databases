@@ -1,0 +1,58 @@
+-- Tabel Program Studi
+CREATE TABLE tbl_prodi (
+    kode_prodi VARCHAR(10) PRIMARY KEY,
+    nama_prodi VARCHAR(100)
+);
+
+-- Tabel Mahasiswa
+CREATE TABLE tbl_mhs (
+    nim VARCHAR(10) PRIMARY KEY,
+    nama_mhs VARCHAR(100),
+    alamat VARCHAR(100),
+    umur INT,
+    tahun_lulus INT,
+    kode_prodi VARCHAR(10),
+    FOREIGN KEY (kode_prodi) REFERENCES tbl_prodi(kode_prodi)
+);
+-- Data untuk tbl_prodi
+INSERT INTO tbl_prodi (kode_prodi, nama_prodi) VALUES
+('A01', 'Sistem Komputer'),
+('A02', 'Sistem Informasi'),
+('A03', 'Teknik Informatika');
+
+-- Data untuk tbl_mhs
+INSERT INTO tbl_mhs (nim, nama_mhs, alamat, umur, tahun_lulus, kode_prodi) VALUES
+('04102001', 'Nur Qomari', 'Surabaya', 25, 2009, 'A01'),
+('04102002', 'Akham Ahdan', 'Surabaya', 23, 2007, 'A01'),
+('04102003', 'Junior', 'Sidoarjo', 22, 2007, 'A01'),
+('04202001', 'Eko Prasetyo', 'Sidoarjo', 20, 2006, 'A02'),
+('04202002', 'Hadi Irawan', 'Gresik', 26, 2009, 'A02'),
+('04202003', 'Badruzzaman', 'Surabaya', 27, 2009, 'A02'),
+('04202004', 'Budi Irawan', 'Surabaya', 23, 2007, 'A02');
+
+-- 1.Tampilkan Data Mahasiswa yang memiliki umur 25 tahun kebawah
+SELECT * FROM tbl_mhs
+WHERE umur <= 25;
+
+-- 2.Tampilkan Total Mahasiswa yang lulus pada tahun 2009
+SELECT COUNT(*) AS total_lulus_2009
+FROM tbl_mhs
+WHERE tahun_lulus = 2009;
+
+-- 3.Tampilkan Data Program Studi yang Jumlah Mahasiswanya paling sedikit (MIN & SUB QUERY)
+SELECT * FROM tbl_prodi
+WHERE id_prodi IN (
+    SELECT id_prodi
+    FROM tbl_mhs
+    GROUP BY id_prodi
+    HAVING COUNT(*) = (
+        SELECT MIN(jumlah)
+        FROM (
+            SELECT COUNT(*) AS jumlah
+            FROM tbl_mhs
+            GROUP BY id_prodi
+        ) AS sub
+    )
+);
+
+-- 4.
