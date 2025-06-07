@@ -1,0 +1,89 @@
+-- LANGKAH 1: Buat database
+CREATE DATABASE db_remedial;
+USE db_remedial;
+
+-- LANGKAH 2: Buat tabel tbl_prodi
+CREATE TABLE tbl_prodi (
+  kode_prodi VARCHAR(10) PRIMARY KEY,
+  nama_prodi VARCHAR(50)
+);
+
+-- LANGKAH 3: Buat tabel tbl_mhs
+CREATE TABLE tbl_mhs (
+  nim VARCHAR(10) PRIMARY KEY,
+  nama_mhs VARCHAR(50),
+  alamat VARCHAR(50),
+  umur INT,
+  tahun_lulus INT,
+  kode_prodi VARCHAR(10),
+  FOREIGN KEY (kode_prodi) REFERENCES tbl_prodi(kode_prodi)
+);
+
+-- LANGKAH 4: Masukkan data ke tbl_prodi
+INSERT INTO tbl_prodi VALUES
+('A01', 'Sistem Komputer'),
+('A02', 'Sistem Informasi'),
+('A03', 'Teknik Informatika');
+
+-- LANGKAH 5: Masukkan data ke tbl_mhs
+INSERT INTO tbl_mhs VALUES
+('0412001', 'Nur Qomari', 'Surabaya', 25, 2009, 'A01'),
+('0412002', 'Akham Ahdan', 'Surabaya', 23, 2007, 'A01'),
+('0412003', 'Junior', 'Sidoarjo', 22, 2007, 'A01'),
+('0412004', 'Eko Prasetyo', 'Sidoarjo', 25, 2006, 'A02'),
+('0422003', 'Hadi Irawan', 'Gresik', 26, 2009, 'A02'),
+('0420004', 'Badruzzaman', 'Surabaya', 27, 2006, 'A02'),
+('0420004', 'Budi Irawan', 'Surabaya', 23, 2007, 'A02');
+
+-- SOAL 1: Tampilkan Data Mahasiswa yang memiliki umur 25 tahun kebawah
+SELECT * FROM tbl_mhs WHERE umur <= 25;
+
+-- SOAL 2: Tampilkan Total Mahasiswa yang lulus pada tahun 2009
+SELECT COUNT(*) AS total_mahasiswa_2009 FROM tbl_mhs WHERE tahun_lulus = 2009;
+
+-- SOAL 3: Tampilkan Program Studi dengan jumlah mahasiswa paling sedikit
+SELECT nama_prodi
+FROM tbl_prodi
+WHERE kode_prodi = (
+    SELECT kode_prodi
+    FROM tbl_mhs
+    GROUP BY kode_prodi
+    ORDER BY COUNT(*) ASC
+    LIMIT 1
+);
+
+-- SOAL 4: Tampilkan Program Studi dengan jumlah mahasiswa paling banyak
+SELECT nama_prodi
+FROM tbl_prodi
+WHERE kode_prodi = (
+    SELECT kode_prodi
+    FROM tbl_mhs
+    GROUP BY kode_prodi
+    ORDER BY COUNT(*) DESC
+    LIMIT 1
+);
+
+-- SOAL 5: Tampilkan Data Mahasiswa yang Memiliki keyword "Irawan"
+SELECT * FROM tbl_mhs WHERE nama_mhs LIKE '%Irawan%';
+
+-- SOAL 6: Tampilkan Jumlah Data Mahasiswa Berdasarkan Alamat
+SELECT alamat, COUNT(*) AS jumlah FROM tbl_mhs GROUP BY alamat;
+
+-- SOAL 7: Masukkan 1 record baru ke tbl_mhs
+INSERT INTO tbl_mhs VALUES
+('0450001', 'Nama Sementara', 'Malang', 22, 2010, 'A03');
+
+-- SOAL 8: Update nama mahasiswa yang barusan jadi "Gunawan Susilo"
+UPDATE tbl_mhs SET nama_mhs = 'Gunawan Susilo' WHERE nim = '0450001';
+
+-- SOAL 9: Hapus data yang barusan dimasukkan
+DELETE FROM tbl_mhs WHERE nim = '0450001';
+
+-- SOAL 10: Tampilkan Nama Mahasiswa dan Nama Prodi dengan JOIN
+SELECT 
+  mhs.nama_mhs, 
+  prodi.nama_prodi
+FROM 
+  tbl_mhs mhs
+JOIN 
+  tbl_prodi prodi ON mhs.kode_prodi = prodi.kode_prodi;
