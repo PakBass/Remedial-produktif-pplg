@@ -1,0 +1,199 @@
+mysql> SELECT * FROM tbl_mhs; SELECT * FROM tbl_prodi;
++----------+--------------+----------+------+-------------+------------+
+| nim      | nama_mhs     | alamat   | umur | tahun_lulus | kode_prodi |
++----------+--------------+----------+------+-------------+------------+
+| 04102001 | Nur Qomari   | Surabaya |   25 |        2009 | A01        |
+| 04102002 | Akham Ahdan  | Surabaya |   23 |        2007 | A01        |
+| 04102003 | Junior       | Sidoarjo |   22 |        2007 | A01        |
+| 04202001 | Eko Prasetyo | Sidoarjo |   20 |        2006 | A02        |
+| 04202002 | Hadi Irawan  | Gresik   |   26 |        2009 | A02        |
+| 04202003 | Badruzzaman  | Surabaya |   27 |        2009 | A02        |
+| 04202004 | Budi Irawan  | Surabaya |   23 |        2007 | A02        |
++----------+--------------+----------+------+-------------+------------+
+7 rows in set (0.00 sec)
+
++------------+--------------------+
+| kode_prodi | nama_prodi         |
++------------+--------------------+
+| A01        | Sistem Komputer    |
+| A02        | Sistem Informasi   |
+| A03        | Teknik Informatika |
++------------+--------------------+
+3 rows in set (0.00 sec)
+
+mysql> notee;
+mysql> create database remed_bhakti;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> use remed_bhakti;
+Database changed
+mysql> create table CREATE TABLE tbl_prodi (     kode_prodi VARCHAR(10) PRIMARY KEY,     nama_prodi VARCHAR(100) );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'CREATE TABLE tbl_prodi (     kode_prodi VARCHAR(10) PRIMARY KEY,     nama_pro...' at line 1
+mysql> Terminal close -- exit!
+mysql> CREATE TABLE tbl_prodi (     kode_prodi VARCHAR(10) PRIMARY KEY,     nama_prodi VARCHAR(100) );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> CREATE TABLE tbl_mhs (     nim VARCHAR(15) PRIMARY KEY,     nama_mhs VARCHAR(100),     alamat VARCHAR(100),     umur INT,     tahun_lulus INT,     kode_prodi VARCHAR(10),     FOREIGN KEY (kode_prodi) REFERENCES tbl_prodi(kode_prodi) );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> seleect * from tbl_prodi;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'seleect * from tbl_prodi' at line 1
+mysql> select * from tbl_prodi;
+Empty set (0.00 sec)
+
+mysql> INSERT INTO tbl_prodi (kode_prodi, nama_prodi) VALUES ('A01', 'Sistem Komputer'), ('A02', 'Sistem Informasi'), ('A03', 'Teknik Informatika');
+Query OK, 3 rows affected (0.00 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO tbl_mhs (nim, nama_mhs, alamat, umur, tahun_lulus, kode_prodi) VALUES ('04102001', 'Nur Qomari', 'Surabaya', 25, 2009, 'A01'), ('04102002', 'Akham Ahdan', 'Surabaya', 23, 2007, 'A01'), ('04102003', 'Junior', 'Sidoarjo', 22, 2007, 'A01'), ('04202001', 'Eko Prasetyo', 'Sidoarjo', 20, 2006, 'A02'), ('04202002', 'Hadi Irawan', 'Gresik', 26, 2009, 'A02'), ('04202003', 'Badruzzaman', 'Surabaya', 27, 2009, 'A02'), ('04202004', 'Budi Irawan', 'Surabaya', 23, 2007, 'A02');
+Query OK, 7 rows affected (0.01 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+mysql> select * from tbl_prodi;
++------------+--------------------+
+| kode_prodi | nama_prodi         |
++------------+--------------------+
+| A01        | Sistem Komputer    |
+| A02        | Sistem Informasi   |
+| A03        | Teknik Informatika |
++------------+--------------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from tbl_mhs;
++----------+--------------+----------+------+-------------+------------+
+| nim      | nama_mhs     | alamat   | umur | tahun_lulus | kode_prodi |
++----------+--------------+----------+------+-------------+------------+
+| 04102001 | Nur Qomari   | Surabaya |   25 |        2009 | A01        |
+| 04102002 | Akham Ahdan  | Surabaya |   23 |        2007 | A01        |
+| 04102003 | Junior       | Sidoarjo |   22 |        2007 | A01        |
+| 04202001 | Eko Prasetyo | Sidoarjo |   20 |        2006 | A02        |
+| 04202002 | Hadi Irawan  | Gresik   |   26 |        2009 | A02        |
+| 04202003 | Badruzzaman  | Surabaya |   27 |        2009 | A02        |
+| 04202004 | Budi Irawan  | Surabaya |   23 |        2007 | A02        |
++----------+--------------+----------+------+-------------+------------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT * FROM tbl_mhs WHERE umur <= 25;
++----------+--------------+----------+------+-------------+------------+
+| nim      | nama_mhs     | alamat   | umur | tahun_lulus | kode_prodi |
++----------+--------------+----------+------+-------------+------------+
+| 04102001 | Nur Qomari   | Surabaya |   25 |        2009 | A01        |
+| 04102002 | Akham Ahdan  | Surabaya |   23 |        2007 | A01        |
+| 04102003 | Junior       | Sidoarjo |   22 |        2007 | A01        |
+| 04202001 | Eko Prasetyo | Sidoarjo |   20 |        2006 | A02        |
+| 04202004 | Budi Irawan  | Surabaya |   23 |        2007 | A02        |
++----------+--------------+----------+------+-------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT COUNT(*) AS total FROM tbl_mhs WHERE tahun_lulus = 2009;
++-------+
+| total |
++-------+
+|     3 |
++-------+
+1 row in set (0.00 sec)
+
+mysql> SELECT p.nama_prodi, COUNT(m.nim) AS jumlah FROM tbl_prodi p JOIN tbl_mhs m ON p.kode_prodi = m.kode_prodi GROUP BY p.kode_prodi HAVING COUNT(m.nim) = (     SELECT MIN(jumlah) FROM (         SELECT COUNT(*) AS jumlah         FROM tbl_mhs         GROUP BY kode_prodi     ) AS sub );
++-----------------+--------+
+| nama_prodi      | jumlah |
++-----------------+--------+
+| Sistem Komputer |      3 |
++-----------------+--------+
+1 row in set (0.00 sec)
+
+mysql> SELECT p.nama_prodi, COUNT(m.nim) AS jumlah FROM tbl_prodi p JOIN tbl_mhs m ON p.kode_prodi = m.kode_prodi GROUP BY p.kode_prodi HAVING COUNT(m.nim) = (     SELECT MAX(jumlah) FROM (         SELECT COUNT(*) AS jumlah         FROM tbl_mhs         GROUP BY kode_prodi     ) AS sub );
++------------------+--------+
+| nama_prodi       | jumlah |
++------------------+--------+
+| Sistem Informasi |      4 |
++------------------+--------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM tbl_mhs WHERE nama_mhs LIKE '%Irawan%';
++----------+-------------+----------+------+-------------+------------+
+| nim      | nama_mhs    | alamat   | umur | tahun_lulus | kode_prodi |
++----------+-------------+----------+------+-------------+------------+
+| 04202002 | Hadi Irawan | Gresik   |   26 |        2009 | A02        |
+| 04202004 | Budi Irawan | Surabaya |   23 |        2007 | A02        |
++----------+-------------+----------+------+-------------+------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT alamat, COUNT(*) AS jumlah FROM tbl_mhs GROUP BY alamat;
++----------+--------+
+| alamat   | jumlah |
++----------+--------+
+| Gresik   |      1 |
+| Sidoarjo |      2 |
+| Surabaya |      4 |
++----------+--------+
+3 rows in set (0.00 sec)
+
+mysql> INSERT INTO tbl_mhs (nim, nama_mhs, alamat, umur, tahun_lulus, kode_prodi) VALUES  ('04202005', 'Budi Iskandar', 'Surabaya', 23, 2005, 'A02');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from tbl_mhs;
++----------+---------------+----------+------+-------------+------------+
+| nim      | nama_mhs      | alamat   | umur | tahun_lulus | kode_prodi |
++----------+---------------+----------+------+-------------+------------+
+| 04102001 | Nur Qomari    | Surabaya |   25 |        2009 | A01        |
+| 04102002 | Akham Ahdan   | Surabaya |   23 |        2007 | A01        |
+| 04102003 | Junior        | Sidoarjo |   22 |        2007 | A01        |
+| 04202001 | Eko Prasetyo  | Sidoarjo |   20 |        2006 | A02        |
+| 04202002 | Hadi Irawan   | Gresik   |   26 |        2009 | A02        |
+| 04202003 | Badruzzaman   | Surabaya |   27 |        2009 | A02        |
+| 04202004 | Budi Irawan   | Surabaya |   23 |        2007 | A02        |
+| 04202005 | Budi Iskandar | Surabaya |   23 |        2005 | A02        |
++----------+---------------+----------+------+-------------+------------+
+8 rows in set (0.00 sec)
+
+mysql> UPDATE tbl_mhs SET nama_mhs = 'Gunawan Susilo' WHERE nim = '04202005';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from tbl_mhs;
++----------+----------------+----------+------+-------------+------------+
+| nim      | nama_mhs       | alamat   | umur | tahun_lulus | kode_prodi |
++----------+----------------+----------+------+-------------+------------+
+| 04102001 | Nur Qomari     | Surabaya |   25 |        2009 | A01        |
+| 04102002 | Akham Ahdan    | Surabaya |   23 |        2007 | A01        |
+| 04102003 | Junior         | Sidoarjo |   22 |        2007 | A01        |
+| 04202001 | Eko Prasetyo   | Sidoarjo |   20 |        2006 | A02        |
+| 04202002 | Hadi Irawan    | Gresik   |   26 |        2009 | A02        |
+| 04202003 | Badruzzaman    | Surabaya |   27 |        2009 | A02        |
+| 04202004 | Budi Irawan    | Surabaya |   23 |        2007 | A02        |
+| 04202005 | Gunawan Susilo | Surabaya |   23 |        2005 | A02        |
++----------+----------------+----------+------+-------------+------------+
+8 rows in set (0.00 sec)
+
+mysql> DELETE FROM tbl_mhs WHERE nim = '04202005';
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from tbl_mhs;
++----------+--------------+----------+------+-------------+------------+
+| nim      | nama_mhs     | alamat   | umur | tahun_lulus | kode_prodi |
++----------+--------------+----------+------+-------------+------------+
+| 04102001 | Nur Qomari   | Surabaya |   25 |        2009 | A01        |
+| 04102002 | Akham Ahdan  | Surabaya |   23 |        2007 | A01        |
+| 04102003 | Junior       | Sidoarjo |   22 |        2007 | A01        |
+| 04202001 | Eko Prasetyo | Sidoarjo |   20 |        2006 | A02        |
+| 04202002 | Hadi Irawan  | Gresik   |   26 |        2009 | A02        |
+| 04202003 | Badruzzaman  | Surabaya |   27 |        2009 | A02        |
+| 04202004 | Budi Irawan  | Surabaya |   23 |        2007 | A02        |
++----------+--------------+----------+------+-------------+------------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT m.nama_mhs, p.nama_prodi FROM tbl_mhs m JOIN tbl_prodi p ON m.kode_prodi = p.kode_prodi;
++--------------+------------------+
+| nama_mhs     | nama_prodi       |
++--------------+------------------+
+| Nur Qomari   | Sistem Komputer  |
+| Akham Ahdan  | Sistem Komputer  |
+| Junior       | Sistem Komputer  |
+| Eko Prasetyo | Sistem Informasi |
+| Hadi Irawan  | Sistem Informasi |
+| Badruzzaman  | Sistem Informasi |
+| Budi Irawan  | Sistem Informasi |
++--------------+------------------+
+7 rows in set (0.00 sec)
+
+mysql> notee; exit;
