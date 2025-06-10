@@ -1,0 +1,179 @@
+CREATE TABLE tbl_prodi(
+    -> kode_prodi VARCHAR(10) NOT NULL,
+    -> nama_prodi VARCHAR(255));
+
+INSERT INTO tbl_prodi (kode_prodi, nama_prodi) VALUES
+    -> ('A01', 'Sistem Komputer'),
+    -> ('A02', 'Sistem Informasi'),
+    -> ('A03', 'Teknik Informatika');
+
+SELECT * FROM tbl_prodi;
++------------+--------------------+
+| kode_prodi | nama_prodi         |
++------------+--------------------+
+| A01        | Sistem Komputer    |
+| A02        | Sistem Informasi   |
+| A03        | Teknik Informatika |
++------------+--------------------+
+
+buat tbl_mhs = CREATE TABLE tbl_mhs(
+    -> Nim int(20),
+    -> Nama_mhs VARCHAR(255),
+    -> Alamat TEXT(200),
+    -> Umur int(10),
+    -> Tahun_lulus int(10),
+    -> Kode_prodi VARCHAR(10) NOT NULL);
+
+    INSERT INTO tbl_mhs (Nim, Nama_mhs, Alamat, Umur, Tahun_lulus, Kode_prodi) VALUES
+    -> ('04102001', 'Nur Qomari', 'Surabaya', '25', '2009', 'A01'),
+    -> ('04102002', 'Akham Ahdan', 'Surabaya', '23', '2007', 'A01'),
+    -> ('04102003', 'Junior', 'Sidoarjo', '22', '2007', 'A01'),
+    -> ('04202001', 'Eko Prasetyo', 'Sidoarjo', '20', '2006', 'A02'),
+    -> ('04202002', 'Hadi Irawan', 'Gresik', '26', '2009', 'A01'),
+    -> ('04202003', 'Badruzzaman', 'Surabaya', '27', '2009', 'A02'),
+    -> ('04202004', 'Budi Irawan', 'Surabaya', '23', '2007', 'A02');
+
+    SELECT * FROM tbl_mhs;
++---------+--------------+----------+------+-------------+------------+
+| Nim     | Nama_mhs     | Alamat   | Umur | Tahun_lulus | Kode_prodi |
++---------+--------------+----------+------+-------------+------------+
+| 4102001 | Nur Qomari   | Surabaya |   25 |        2009 | A01        |
+| 4102002 | Akham Ahdan  | Surabaya |   23 |        2007 | A01        |
+| 4102003 | Junior       | Sidoarjo |   22 |        2007 | A01        |
+| 4202001 | Eko Prasetyo | Sidoarjo |   20 |        2006 | A02        |
+| 4202002 | Hadi Irawan  | Gresik   |   26 |        2009 | A01        |
+| 4202003 | Badruzzaman  | Surabaya |   27 |        2009 | A02        |
+| 4202004 | Budi Irawan  | Surabaya |   23 |        2007 | A02        |
++---------+--------------+----------+------+-------------+------------+
+
+
+
+1. Tampilkan Data Mahasiswa yang memiliki umur 25 tahun kebawah
+
+SELECT * FROM tbl_mhs WHERE Umur <= 25;
++---------+--------------+----------+------+-------------+------------+
+| Nim     | Nama_mhs     | Alamat   | Umur | Tahun_lulus | Kode_prodi |
++---------+--------------+----------+------+-------------+------------+
+| 4102001 | Nur Qomari   | Surabaya |   25 |        2009 | A01        |
+| 4102002 | Akham Ahdan  | Surabaya |   23 |        2007 | A01        |
+| 4102003 | Junior       | Sidoarjo |   22 |        2007 | A01        |
+| 4202001 | Eko Prasetyo | Sidoarjo |   20 |        2006 | A02        |
+| 4202004 | Budi Irawan  | Surabaya |   23 |        2007 | A02        |
++---------+--------------+----------+------+-------------+------------+
+
+2. Tampilkan Total Mahasiswa yang lulus pada tahun 2009
+
+SELECT COUNT(*) AS total_lulus_2009 FROM tbl_mhs WHERE Tahun_lulus = 2009;
++------------------+
+| total_lulus_2009 |
++------------------+
+|                3 |
++------------------+
+
+3. Tampilkan Data Program Studi yang Jumlah Mahasiswanya paling sedikit (MIN & SUB QUERY)
+
+SELECT * FROM tbl_prodi WHERE kode_prodi IN (SELECT kode_prodi FROM tbl_mhs GROUP BY kode_prodi HAVING COUNT(*) = (SELECT MIN(jumlah) FROM (SELECT COUNT(*) AS jumlah FROM tbl_mhs GROUP BY kode_prodi) AS sub));
++------------+------------------+
+| kode_prodi | nama_prodi       |
++------------+------------------+
+| A02        | Sistem Informasi |
++------------+------------------+
+
+4. Tampilkan Data Program Studi yang Jumlah Mahasiswanya paling banyak (MAX & SUB QUERY)
+sql
+
+SELECT * FROM tbl_prodi WHERE kode_prodi IN (SELECT kode_prodi FROM tbl_mhs GROUP BY kode_prodi HAVING COUNT(*) = (SELECT MAX(jumlah) FROM (SELECT COUNT(*) AS jumlah FROM tbl_mhs GROUP BY kode_prodi) AS sub));
++------------+-----------------+
+| kode_prodi | nama_prodi      |
++------------+-----------------+
+| A01        | Sistem Komputer |
++------------+-----------------+
+
+5. Tampilkan Data Mahasiswa yang Memiliki keyword “Irawan”
+
+SELECT * FROM tbl_mhs WHERE Nama_mhs LIKE '%Irawan%';
++---------+-------------+----------+------+-------------+------------+
+| Nim     | Nama_mhs    | Alamat   | Umur | Tahun_lulus | Kode_prodi |
++---------+-------------+----------+------+-------------+------------+
+| 4202002 | Hadi Irawan | Gresik   |   26 |        2009 | A01        |
+| 4202004 | Budi Irawan | Surabaya |   23 |        2007 | A02        |
++---------+-------------+----------+------+-------------+------------+
+
+6. Tampilkan Jumlah Data Mahasiswa Berdasarkan Alamat (GROUP)
+
+SELECT Alamat, COUNT(*) AS jumlah FROM tbl_mhs GROUP BY Alamat;
++----------+--------+
+| Alamat   | jumlah |
++----------+--------+
+| Gresik   |      1 |
+| Sidoarjo |      2 |
+| Surabaya |      4 |
++----------+--------+
+
+7. Masukkan 1 record baru pada table Mahasiswa
+
+INSERT INTO tbl_mhs (Nama_mhs, Umur, Alamat, Tahun_lulus, Kode_prodi) VALUES ('Mahasiswa Baru', 23, 'Bandung', 2010, 'A01');
+SELECT * FROM tbl_mhs;
++---------+----------------+----------+------+-------------+------------+
+| Nim     | Nama_mhs       | Alamat   | Umur | Tahun_lulus | Kode_prodi |
++---------+----------------+----------+------+-------------+------------+
+| 4102001 | Nur Qomari     | Surabaya |   25 |        2009 | A01        |
+| 4102002 | Akham Ahdan    | Surabaya |   23 |        2007 | A01        |
+| 4102003 | Junior         | Sidoarjo |   22 |        2007 | A01        |
+| 4202001 | Eko Prasetyo   | Sidoarjo |   20 |        2006 | A02        |
+| 4202002 | Hadi Irawan    | Gresik   |   26 |        2009 | A01        |
+| 4202003 | Badruzzaman    | Surabaya |   27 |        2009 | A02        |
+| 4202004 | Budi Irawan    | Surabaya |   23 |        2007 | A02        |
+|    NULL | Mahasiswa Baru | Bandung  |   23 |        2010 | A01        |
++---------+----------------+----------+------+-------------+------------+
+
+8. Ganti Nama Mahasiswa yang baru Anda masukkan tersebut manjadi “Gunawan Susilo”
+
+UPDATE tbl_mhs SET nama_mhs = 'Gunawan Susilo' WHERE Nama_mhs = 'Mahasiswa Baru';
+Query OK, 1 row affected (0.038 sec)
+
+SELECT * FROM tbl_mhs;
++---------+----------------+----------+------+-------------+------------+
+| Nim     | Nama_mhs       | Alamat   | Umur | Tahun_lulus | Kode_prodi |
++---------+----------------+----------+------+-------------+------------+
+| 4102001 | Nur Qomari     | Surabaya |   25 |        2009 | A01        |
+| 4102002 | Akham Ahdan    | Surabaya |   23 |        2007 | A01        |
+| 4102003 | Junior         | Sidoarjo |   22 |        2007 | A01        |
+| 4202001 | Eko Prasetyo   | Sidoarjo |   20 |        2006 | A02        |
+| 4202002 | Hadi Irawan    | Gresik   |   26 |        2009 | A01        |
+| 4202003 | Badruzzaman    | Surabaya |   27 |        2009 | A02        |
+| 4202004 | Budi Irawan    | Surabaya |   23 |        2007 | A02        |
+|    NULL | Gunawan Susilo | Bandung  |   23 |        2010 | A01        |
++---------+----------------+----------+------+-------------+------------+
+
+9. Hapus Data yang baru Anda masukkan tersebut
+
+DELETE FROM tbl_mhs WHERE Nama_mhs = 'Gunawan Susilo';
+
+SELECT * FROM tbl_mhs;
++---------+--------------+----------+------+-------------+------------+
+| Nim     | Nama_mhs     | Alamat   | Umur | Tahun_lulus | Kode_prodi |
++---------+--------------+----------+------+-------------+------------+
+| 4102001 | Nur Qomari   | Surabaya |   25 |        2009 | A01        |
+| 4102002 | Akham Ahdan  | Surabaya |   23 |        2007 | A01        |
+| 4102003 | Junior       | Sidoarjo |   22 |        2007 | A01        |
+| 4202001 | Eko Prasetyo | Sidoarjo |   20 |        2006 | A02        |
+| 4202002 | Hadi Irawan  | Gresik   |   26 |        2009 | A01        |
+| 4202003 | Badruzzaman  | Surabaya |   27 |        2009 | A02        |
+| 4202004 | Budi Irawan  | Surabaya |   23 |        2007 | A02        |
++---------+--------------+----------+------+-------------+------------+
+
+10. Tampilkan Nama Mahasiswa dan Nama Program Studi dengan Penggabungan Dua Tabel (JOIN)
+
+SELECT m.Nama_mhs, p.nama_prodi FROM tbl_mhs m JOIN tbl_prodi p ON m.kode_prodi = p.kode_prodi;
++--------------+------------------+
+| Nama_mhs     | nama_prodi       |
++--------------+------------------+
+| Nur Qomari   | Sistem Komputer  |
+| Akham Ahdan  | Sistem Komputer  |
+| Junior       | Sistem Komputer  |
+| Eko Prasetyo | Sistem Informasi |
+| Hadi Irawan  | Sistem Komputer  |
+| Badruzzaman  | Sistem Informasi |
+| Budi Irawan  | Sistem Informasi |
++--------------+------------------+
